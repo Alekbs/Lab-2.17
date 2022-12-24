@@ -10,7 +10,7 @@ import click
 def cli():
     pass
 
-
+#Добавление нового студента
 @cli.command("add")
 @click.argument("filename")
 @click.option("-n", "--name")
@@ -33,7 +33,7 @@ def add(filename, name, groop, marks):
         json.dump(students, fout, ensure_ascii=False, indent=4)
     click.secho("Студент добавлен")
 
-
+#Отобразить студентов
 @cli.command("display")
 @click.argument("filename")
 @click.option("--select", "-s", is_flag=True)
