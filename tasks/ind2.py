@@ -4,24 +4,26 @@
 
 import json
 import click
+import os
+import sys
 
 
 @click.group()
 def cli():
     pass
 
-#Добавление нового студента
+
+# Добавление нового студента
 @cli.command("add")
-@click.argument("filename")
 @click.option("-n", "--name")
 @click.option("-g", "--groop")
 @click.option("-gr", "--marks")
-def add(filename, name, groop, marks):
+def add(name, groop, marks):
     """
     Добавить данные о студенте
     """
     # Запросить данные о студенте.
-    students = load_students(filename)
+    students = load_students()
     students.append(
         {
             "name": name,
@@ -33,13 +35,13 @@ def add(filename, name, groop, marks):
         json.dump(students, fout, ensure_ascii=False, indent=4)
     click.secho("Студент добавлен")
 
-#Отобразить студентов
+
+# Отобразить студентов
 @cli.command("display")
-@click.argument("filename")
 @click.option("--select", "-s", is_flag=True)
-def display(filename, select):
+def display(select):
     # Заголовок таблицы.
-    students = load_students(filename)
+    students = load_students()
     if select:
         students = selected(students)
 
@@ -61,6 +63,7 @@ def display(filename, select):
     print(line)
 
 
+# Выбор студентов с оценкой не ниже 4
 def selected(students):
     result = []
     for idx, student in enumerate(students, 1):
@@ -70,7 +73,9 @@ def selected(students):
     return result
 
 
-def load_students(filename):
+# Загрузка из файла
+def load_students():
+    filename = os.environ.get("STUDENTS_DATA1")
     with open(filename, "r", encoding="utf-8") as fin:
         return json.load(fin)
 
