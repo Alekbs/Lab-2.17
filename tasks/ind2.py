@@ -5,30 +5,31 @@
 import json
 import click
 import os
-import sys
 
 
 @click.group()
-def cli():
-    pass
+@click.argument("filename")
+@click.pass_context
+def cli(ctx, filename):
+    ctx.obj = filename
 
 
 # Добавление нового студента
 @cli.command("add")
+@click.pass_obj
 @click.option("-n", "--name")
 @click.option("-g", "--groop")
-@click.option("-gr", "--marks")
-def add(name, groop, marks):
+@click.option("-m", "--marks")
+def add(filename, name, groop, marks):
     """
     Добавить данные о студенте
     """
-    # Запросить данные о студенте.
-    students = load_students()
+    students = load_students(filename)
     students.append(
         {
             "name": name,
-            "group": groop,
-            "grade": [int(i) for i in marks.split()],
+            "groop": groop,
+            "marks": [int(i) for i in marks.split()],
         }
     )
     with open(filename, "w", encoding="utf-8") as fout:
@@ -38,10 +39,12 @@ def add(name, groop, marks):
 
 # Отобразить студентов
 @cli.command("display")
+@click.pass_obj
 @click.option("--select", "-s", is_flag=True)
-def display(select):
+def display(filename, select):
     # Заголовок таблицы.
-    students = load_students()
+    print(filename)
+    students = load_students(filename)
     if select:
         students = selected(students)
 
@@ -74,10 +77,12 @@ def selected(students):
 
 
 # Загрузка из файла
-def load_students():
-    filename = os.environ.get("STUDENTS_DATA1")
-    with open(filename, "r", encoding="utf-8") as fin:
-        return json.load(fin)
+def load_students(filename):
+    result = []
+    if os.path.exists(filename):
+        with open(filename, "r", encoding="utf-8") as fin:
+            result = json.load(fin)
+    return result
 
 
 if __name__ == "__main__":
