@@ -18,6 +18,9 @@ def show_add(students, name, groop, marks):
 
 
 def help():
+    """
+    Вывести список комманд
+    """
     print("Список команд:\n")
     print("add - добавить работника;")
     print("list - вывод студентов с оценками 4 и 5;")
