@@ -14,7 +14,6 @@ def cli(ctx, filename):
     ctx.obj = filename
 
 
-# Добавление нового студента
 @cli.command("add")
 @click.pass_obj
 @click.option("-n", "--name")
@@ -37,11 +36,13 @@ def add(filename, name, groop, marks):
     click.secho("Студент добавлен")
 
 
-# Отобразить студентов
 @cli.command("display")
 @click.pass_obj
 @click.option("--select", "-s", is_flag=True)
 def display(filename, select):
+    """
+    Вывести данные о студентах.
+    """
     # Заголовок таблицы.
     students = load_students(filename)
     if select:
@@ -67,6 +68,10 @@ def display(filename, select):
 
 # Выбор студентов с оценкой не ниже 4
 def selected(students):
+    """
+    Выбрать студентов со средним баллом не ниже 4.
+    """
+
     result = []
     for student in students:
         res = all(int(x) > 3 for x in student["marks"])
@@ -77,6 +82,9 @@ def selected(students):
 
 # Загрузка из файла
 def load_students(filename):
+    """
+    Загрузить всех студентов из файла JSON.
+    """
     result = []
     if os.path.exists(filename):
         with open(filename, "r", encoding="utf-8") as fin:
