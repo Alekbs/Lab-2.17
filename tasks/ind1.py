@@ -36,7 +36,7 @@ def show_display(students):
     print(line)
 
     # Вывести данные о всех студентах.
-    for idx, student in enumerate(students, 1):
+    for student in students:
         print(
             "| {:<30} | {:<20} | {:>7} |".format(
                 student.get("name", ""),
@@ -50,7 +50,7 @@ def show_display(students):
 # Выбор студентов с оценкой не ниже 4
 def show_select(students):
     result = []
-    for idx, student in enumerate(students, 1):
+    for student in students:
         res = all(int(x) > 3 for x in student["marks"])
         if res:
             result.append(student)
@@ -124,7 +124,6 @@ def main(command_line=None):
         show_display(students)
     # Выбрать требуемых студентов.
     elif args.command == "select":
-        print(students)
         selected = show_select(students)
         show_display(selected)
     # Сохранить данные в файл, если список студентов был изменен.

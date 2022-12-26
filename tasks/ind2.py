@@ -43,7 +43,6 @@ def add(filename, name, groop, marks):
 @click.option("--select", "-s", is_flag=True)
 def display(filename, select):
     # Заголовок таблицы.
-    print(filename)
     students = load_students(filename)
     if select:
         students = selected(students)
@@ -55,7 +54,7 @@ def display(filename, select):
     print(line)
 
     # Вывести данные о всех студентах.
-    for idx, student in enumerate(students, 1):
+    for student in students:
         print(
             "| {:<30} | {:<20} | {:>7} |".format(
                 student.get("name", ""),
@@ -69,7 +68,7 @@ def display(filename, select):
 # Выбор студентов с оценкой не ниже 4
 def selected(students):
     result = []
-    for idx, student in enumerate(students, 1):
+    for student in students:
         res = all(int(x) > 3 for x in student["marks"])
         if res:
             result.append(student)
