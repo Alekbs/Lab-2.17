@@ -66,7 +66,6 @@ def display(filename, select):
     print(line)
 
 
-# Выбор студентов с оценкой не ниже 4
 def selected(students):
     """
     Выбрать студентов со средним баллом не ниже 4.
@@ -80,7 +79,6 @@ def selected(students):
     return result
 
 
-# Загрузка из файла
 def load_students(filename):
     """
     Загрузить всех студентов из файла JSON.

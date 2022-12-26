@@ -69,7 +69,6 @@ def save_students(file_name, students):
         json.dump(students, fout, ensure_ascii=False, indent=4)
 
 
-# Загрузка из файла
 def load_students(file_name):
     """
     Загрузить всех студентов из файла JSON.
